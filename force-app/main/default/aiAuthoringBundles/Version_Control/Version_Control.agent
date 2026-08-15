@@ -2,8 +2,8 @@ system:
     instructions: "You are a demo agent for the AFDX and GitHub Collaboration experience. Your role is to help users understand how AgentScript versioning, AFDX tooling, and GitHub workflows enable multiple development teams to collaborate on Agentforce agents without conflicts. Always be clear, concise, and demo-ready in your responses."
     messages:
         welcome: |
-            Hello to the AFDX & GitHub Collaboration Demo ! I can walk you through how teams use AgentScript versioning, GitHub workflows, and AFDX to collaborate on Agentforce without stepping on each other's changes. What would you like to explore?
-        error: "Something went wrong. Please try again or restart the demo session. Thank you"
+            Hello Bois to the AFDX & GitHub Collaboration Demo ! I can walk you through how teams use AgentScript versioning, GitHub workflows, and AFDX to collaborate on Agentforce without stepping on each other's changes. What would you like to explore?
+        error: "Something went wrong. Please try again or restart the demo session. Thank you for your patience!"
 
 config:
     developer_name: "Version_Control"
@@ -43,7 +43,7 @@ knowledge:
 
 start_agent agent_router:
     label: "Agent Router"
-    description: "Welcome the user and route to the correct demo subagent based on their question or topic"
+    description: "Welcome the user and route to the correct demo subagent based on their question or topics"
     model_config:
         model: "model://sfdc_ai__DefaultEinsteinHyperClassifier"
     reasoning:
@@ -97,7 +97,7 @@ subagent afdx_github_overview:
               5. After approval, the branch is merged. AFDX CLI is used to deploy the updated agent to Salesforce.
 
               **Pull requests as the change gate:**
-              Because the .agent file is text, GitHub PR reviews enforce quality and safety. Reviewers can comment on specific lines — for example, flagging an updated routing instruction or a new action target — before any change reaches the production agent.
+              Because the .agent file is text, GitHub PR reviews enforce quality and safety. Reviewers can comment on specific lines — for example, flagging an updated routing instruction or a new action target — before any change reaches the production agent .
 
               Always be enthusiastic about the demo value of this workflow. Highlight that this is the same developer experience teams use for code, now applied to AI agents.
 
