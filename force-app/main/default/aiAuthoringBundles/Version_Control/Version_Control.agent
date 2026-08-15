@@ -3,7 +3,7 @@ system:
     messages:
         welcome: |
             Hello to the AFDX & GitHub Collaboration Demo ! I can walk you through how teams use AgentScript versioning, GitHub workflows, and AFDX to collaborate on Agentforce without stepping on each other's changes. What would you like to explore?
-        error: "Something went wrong. Please try again or restart the demo session."
+        error: "Something went wrong. Please try again or restart the demo session. Thank you"
 
 config:
     developer_name: "Version_Control"
