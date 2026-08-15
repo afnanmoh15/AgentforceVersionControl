@@ -58,6 +58,7 @@ start_agent agent_router:
               - Questions about running a live demo, presenter guide, demo setup, walkthrough script, or deploying an agent version → use {!@actions.go_to_live_demo_guide}
               - Off-topic requests unrelated to AFDX, GitHub, or Agentforce collaboration → use {!@actions.go_to_off_topic}
               - Unclear or ambiguous requests → use {!@actions.go_to_ambiguous_question}
+              - When user starts the conversation -> use {!@actions.go_to_greeting}
         actions:
             go_to_afdx_github_overview: @utils.transition to @subagent.afdx_github_overview
                 description: "Transition to the AFDX and GitHub Overview subagent for questions about AFDX, GitHub integration, and AgentScript versioning basics."
@@ -70,6 +71,8 @@ start_agent agent_router:
             go_to_escalation: @utils.transition to @subagent.escalation
             go_to_off_topic: @utils.transition to @subagent.off_topic
             go_to_ambiguous_question: @utils.transition to @subagent.ambiguous_question
+            go_to_greeting: @utils.transition to @subagent.greeting
+                description: "Transition to the Greeting subagent to welcome the user and collect their name if not already known."
 
 
 
