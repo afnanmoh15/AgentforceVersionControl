@@ -7,10 +7,6 @@ on:
         description: 'Type "deploy" to confirm you have team sign-off'
         required: true
 
-# Needed so this workflow can push the retrieved metadata back to main.
-permissions:
-  contents: write
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -32,22 +28,9 @@ jobs:
           sf org login sfdx-url --sfdx-url-file ./authfile.txt --alias devOrg --set-default
           rm ./authfile.txt
 
-      # Publishes the bundle (creates the new version in the org) and retrieves
-      # the resulting Bot/BotVersion/GenAiX metadata back into force-app/.
+      # --skip-retrieve: the .agent script (already in git) is the source of
+      # truth. The generated Bot/BotVersion/GenAiX metadata is a byproduct of
+      # publishing, fully reproducible from the script -- no need to pull it
+      # back into the repo or commit it.
       - name: Publish authoring bundle (create version + deploy)
-        run: sf agent publish authoring-bundle --api-name Version_Control --target-org devOrg
-
-      # If the publish step changed any retrieved metadata files, commit and
-      # push them straight to main so the repo never silently drifts behind
-      # what's actually live in the org. If nothing changed, this is a no-op.
-      - name: Commit retrieved metadata back to main
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add force-app/
-          if git diff --cached --quiet; then
-            echo "No metadata changes to commit."
-          else
-            git commit -m "chore: sync metadata from published version [skip ci]"
-            git push origin HEAD:main
-          fi
+        run: sf agent publish authoring-bundle --api-name Version_Control --target-org devOrg --skip-retrieve
