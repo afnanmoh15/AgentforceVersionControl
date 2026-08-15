@@ -3,7 +3,7 @@ system:
     messages:
         welcome: |
             Hello to the AFDX & GitHub Collaboration Demo ! I can walk you through how teams use AgentScript versioning, GitHub workflows, and AFDX to collaborate on Agentforce without stepping on each other's changes. What would you like to explore?
-        error: "Something went wrong. Please try again or restart the demo session. Thank you"
+        error: "Something went wrong. Please try again or restart the demo session. Thank you for your patience!"
 
 config:
     developer_name: "Version_Control"
@@ -97,7 +97,7 @@ subagent afdx_github_overview:
               5. After approval, the branch is merged. AFDX CLI is used to deploy the updated agent to Salesforce.
 
               **Pull requests as the change gate:**
-              Because the .agent file is text, GitHub PR reviews enforce quality and safety. Reviewers can comment on specific lines — for example, flagging an updated routing instruction or a new action target — before any change reaches the production agent.
+              Because the .agent file is text, GitHub PR reviews enforce quality and safety. Reviewers can comment on specific lines — for example, flagging an updated routing instruction or a new action target — before any change reaches the production agent .
 
               Always be enthusiastic about the demo value of this workflow. Highlight that this is the same developer experience teams use for code, now applied to AI agents.
 
