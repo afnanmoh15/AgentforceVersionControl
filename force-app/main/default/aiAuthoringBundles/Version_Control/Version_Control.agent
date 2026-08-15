@@ -7,7 +7,7 @@ system:
 
 config:
     developer_name: "Version_Control"
-    agent_label: "Version Control"
+    agent_label: "Version Control Demo"
     description: "Demo agent showcasing AgentScript authoring, versioning, and multi-team collaboration using AFDX and GitHub"
 
 access:
