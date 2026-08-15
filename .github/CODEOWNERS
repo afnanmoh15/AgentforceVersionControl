@@ -1,0 +1,4 @@
+# Everyone on the team is auto-tagged for visibility on every PR.
+# This does NOT block merging (PR review is optional per branch protection settings) —
+# it just makes sure the team sees changes as they land.
+* @afnanmoh15 @teammate2 @teammate3

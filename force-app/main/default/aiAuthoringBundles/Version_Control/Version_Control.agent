@@ -38,7 +38,7 @@ variables:
 
 knowledge:
     rag_feature_config_id: ""
-    citations_url: ""
+    citations_url: "" 
     citations_enabled: False
 
 start_agent agent_router:

@@ -1,0 +1,36 @@
+name: Create Version and Deploy to Dev
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "deploy" to confirm you have team sign-off'
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'deploy'
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Install Salesforce CLI
+        run: npm install --global @salesforce/cli
+
+      - name: Authenticate to Dev Org
+        env:
+          SF_AUTH_URL: ${{ secrets.SF_DEV_AUTH_URL }}
+        run: |
+          echo "$SF_AUTH_URL" > ./authfile.txt
+          sf org login sfdx-url --sfdx-url-file ./authfile.txt --alias devOrg --set-default
+          rm ./authfile.txt
+
+      # Compiles + publishes the authoring bundle to the dev org, which is
+      # what creates the new Bot/BotVersion/GenAiX metadata (the "new version").
+      # This is the CLI equivalent of clicking "Commit Version" in Agentforce Builder.
+      # Bundle API name — matches force-app/main/default/aiAuthoringBundles/Version_Control
+      - name: Publish authoring bundle (create version + deploy)
+        run: sf agent publish authoring-bundle --api-name Version_Control --target-org devOrg

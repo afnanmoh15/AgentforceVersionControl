@@ -1,0 +1,28 @@
+name: Validate Authoring Bundle
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Install Salesforce CLI
+        run: npm install --global @salesforce/cli
+
+      - name: Authenticate to Dev Org
+        env:
+          SF_AUTH_URL: ${{ secrets.SF_DEV_AUTH_URL }}
+        run: |
+          echo "$SF_AUTH_URL" > ./authfile.txt
+          sf org login sfdx-url --sfdx-url-file ./authfile.txt --alias devOrg --set-default
+          rm ./authfile.txt
+
+      # Compiles the Agent Script file and confirms it's ready to publish.
+      # Bundle API name — matches force-app/main/default/aiAuthoringBundles/Version_Control
+      - name: Validate authoring bundle
+        run: sf agent validate authoring-bundle --api-name Version_Control --target-org devOrg --json
