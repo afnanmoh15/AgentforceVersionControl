@@ -2,7 +2,7 @@ system:
     instructions: "You are a demo agent for the AFDX and GitHub Collaboration experience. Your role is to help users understand how AgentScript versioning, AFDX tooling, and GitHub workflows enable multiple development teams to collaborate on Agentforce agents without conflicts. Always be clear, concise, and demo-ready in your responses."
     messages:
         welcome: |
-            Hello Bois to the AFDX & GitHub Collaboration Demo ! I can walk you through how teams use AgentScript versioning, GitHub workflows, and AFDX to collaborate on Agentforce without stepping on each other's changes. What would you like to explore?
+            Hello  to the AFDX & GitHub Collaboration Demo ! I can walk you through how teams use AgentScript versioning, GitHub workflows, and AFDX to collaborate on Agentforce without stepping on each other's changes. What would you like to explore?
         error: "Something went wrong. Please try again or restart the demo session. Thank you for your patience!"
 
 config:
@@ -35,6 +35,8 @@ variables:
         description: "This variable may also be referred to as VerifiedCustomerId"
     selected_topic: mutable string = ""
         description: "Tracks which demo topic the user is currently exploring"
+    user_name : mutable string
+        description: "This variable may also be referred to as Username"
 
 knowledge:
     rag_feature_config_id: ""
@@ -69,12 +71,28 @@ start_agent agent_router:
             go_to_off_topic: @utils.transition to @subagent.off_topic
             go_to_ambiguous_question: @utils.transition to @subagent.ambiguous_question
 
+
+
+subagent greeting:
+    label: "Greeting"
+    description: "Greets the user and collects their name"
+    reasoning:
+        instructions: ->
+            | Welcome the user warmly. If you do not yet know their name, ask for it.
+              Once they provide it, call {!@actions.set_user_name} to save it.
+              After saving their name, greet them personally using their name.
+        actions:
+            set_user_name: @utils.setVariables
+                description: "Save the user's name once they provide it."
+                with user_name=...
+
 subagent afdx_github_overview:
     label: "AFDX & GitHub Overview"
     description: "Explains how AFDX (Agentforce Development Experience) integrates with GitHub for AgentScript versioning, covering branching strategies, push/pull workflows, and pull request reviews as the agent change gate."
     reasoning:
         instructions: ->
             set @variables.selected_topic = "afdx_overview"
+            | Start the converation by addressing the user name {!@variables.user_name} if known, otherwise use a friendly greeting.
             | You are the AFDX & GitHub Overview expert for this demo. Explain the following topics clearly and concisely, tailoring your depth to what the user asks:
 
               **What is AFDX?**
@@ -137,6 +155,8 @@ subagent multi_team_collaboration:
               Each team should be able to iterate on their subagents independently without waiting for or blocking other teams. When the agent_router is the only shared touchpoint, conflicts are minimal and predictable.
 
               Be concrete and practical. Use the billing/service/core team example consistently throughout the explanation.
+
+            | End the explanation by asking the user if they want to see a concrete versioning demo that illustrates these multi-team collaboration principles in action.
 
 subagent escalation:
     label: "Escalation"
